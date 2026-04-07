@@ -1,1 +1,70 @@
+package lio;
+import java.util.*;
+public class Hotel {
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner (System.in);
+		int rooms [][] = new int [7][5];
+
+		int i = 0;
+		while (i < 5) {
+		System.out.println("=== HOTEL RESERVATION SYSTEM ===");
+		System.out.println("1. View Rooms");
+		System.out.println("2. Check In");
+		System.out.println("3. Check Out");
+		System.out.println("4. Exit");
+		System.out.print("Enter Choice: ");
+		int choice = input.nextInt();
+	
+		System.out.println();
+		
+		if (choice == 1) {
+            System.out.println("=== Room View ===");
+            for (int f = 6; f >= 0; f--) { 
+                System.out.print("Floor " + (f + 1) + ": ");
+                for (int r = 0; r < 5; r++) {
+                    System.out.print("[" + rooms[f][r] + "]");
+                }
+                System.out.println();
+            }
+        } 
+        else if (choice == 2) {
+            System.out.print("Enter floor (1-7): ");
+            int floor = input.nextInt() - 1;
+            System.out.print("Enter room (1-5): ");
+            int room = input.nextInt() - 1;
+            
+            if (rooms[floor][room] == 0) {
+                rooms[floor][room] = 1;
+                System.out.println("Check-in successful!");
+            } else {
+                System.out.println("Room already occupied!");
+            }
+        } 
+        else if (choice == 3) {
+            System.out.print("Enter floor (1-7): ");
+            int floor1 = input.nextInt() - 1;
+            System.out.print("Enter room (1-5): ");
+            int room1 = input.nextInt() - 1;
+
+            if (rooms[floor1][room1] == 1) {
+                rooms[floor1][room1] = 0;
+                System.out.println("Check-out successful!");
+            } else {
+                System.out.println("Room already empty!");
+            }
+        } 
+        else if (choice == 4) {
+            System.out.println("Exiting menu...");
+      
+        } 
+
+
+        System.out.println();
+    }
+    input.close();
+		}	
+	 
+		
+	}
 
