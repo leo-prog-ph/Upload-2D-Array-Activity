@@ -1,0 +1,144 @@
+package Main;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.color.CMMException;
+import java.io.*;
+import java.awt.Color;
+public class Management extends JFrame{
+	static JTextField emid, fullname, datebirth, ages, nationality, contact, email, department, position; 
+    static JComboBox<String> status; 
+    static JRadioButton male, female;
+    static DefaultTableModel tableModel;
+    static JTable table;
+
+    Management() {
+        JLabel title = new JLabel("EMS Inc.");
+        add(title).setBounds(60, 25, 100, 20);
+
+        JLabel Id = new JLabel("Employee ID");
+        add(Id).setBounds(60, 60, 120, 20);
+        emid = new JTextField();
+        add(emid).setBounds(60, 80, 140, 20);
+
+        JLabel full = new JLabel("Fullname");
+        add(full).setBounds(60, 105, 120, 20);
+        fullname = new JTextField();
+        add(fullname).setBounds(60, 125, 140, 20);
+
+        JLabel date = new JLabel("Date of Birth");
+        add(date).setBounds(60, 150, 120, 20);
+        datebirth = new JTextField();
+        add(datebirth).setBounds(60, 170, 140, 20);
+
+        JLabel age = new JLabel("Age");
+        add(age).setBounds(210, 60, 120, 20);
+        ages = new JTextField();
+        add(ages).setBounds(210, 80, 140, 20);
+
+        JLabel civil = new JLabel("Civil Status");
+        add(civil).setBounds(210, 105, 120, 20);
+        
+        status = new JComboBox<>(new String[]{"Single", "Married", "Widowed", "Separated", "Divorced"});
+        add(status).setBounds(210, 125, 140, 20);
+
+        JLabel nation = new JLabel("Nationality");
+        add(nation).setBounds(210, 150, 120, 20);
+        nationality = new JTextField();
+        add(nationality).setBounds(210, 170, 140, 20);
+
+        JLabel gen = new JLabel("Gender");
+        add(gen).setBounds(360, 60, 120, 20);
+        male = new JRadioButton("Male");
+        add(male).setBounds(360, 80, 55, 20);
+        female = new JRadioButton("Female");
+        add(female).setBounds(420, 80, 90, 20);
+        
+        ButtonGroup gendergroup = new ButtonGroup();
+        gendergroup.add(male);
+        gendergroup.add(female);
+
+        JLabel number = new JLabel("Contact Number");
+        add(number).setBounds(360, 105, 120, 20);
+        contact = new JTextField();
+        add(contact).setBounds(360, 125, 140, 20);
+
+        JLabel mail = new JLabel("Email");
+        add(mail).setBounds(360, 150, 120, 20);
+        email = new JTextField();
+        add(email).setBounds(360, 170, 140, 20);
+
+        JLabel depart = new JLabel("Department");
+        add(depart).setBounds(510, 105, 120, 20);
+        department = new JTextField();
+        add(department).setBounds(510, 125, 140, 20);
+
+        JLabel post = new JLabel("Job Title/Position");
+        add(post).setBounds(510, 150, 150, 20);
+        position = new JTextField();
+        add(position).setBounds(510, 170, 140, 20);
+
+        String[] columns = {"ID", "Name", "Birth", "Age", "Status", "Nation", "Gender", "Contact", "Email", "Dept", "Title"};
+        tableModel = new DefaultTableModel(columns, 0);
+        table = new JTable(tableModel);
+        JScrollPane sp = new JScrollPane(table);
+        sp.setBounds(20, 250, 745, 180);
+        add(sp);
+        
+        table.setForeground(Color.BLACK);
+        
+        table.getTableHeader().setOpaque(false); 
+        table.getTableHeader().setBackground(new Color(180, 204, 230)); 
+        table.getTableHeader().setForeground(new Color(50, 50, 50));       
+        table.getTableHeader().setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    
+        
+        JButton butt = new JButton("Add Employee");
+        add(butt).setBounds(515, 200, 130, 20);
+        
+        butt.addActionListener(e -> {
+            String gender = male.isSelected() ? "Male" : (female.isSelected() ? "Female" : "N/A");
+            
+            String dataLine = emid.getText() + "#" + fullname.getText() + "#" + datebirth.getText() + "#" +
+                              ages.getText() + "#" + status.getSelectedItem() + "#" + nationality.getText() + "#" +
+                              gender + "#" + contact.getText() + "#" + email.getText() + "#" +
+                              department.getText() + "#" + position.getText();
+            
+            tableModel.addRow(dataLine.split("#"));
+
+            try (FileWriter fw = new FileWriter("employees.txt", true);
+                 BufferedWriter bw = new BufferedWriter(fw);
+                 PrintWriter out = new PrintWriter(bw)) {
+                out.println(dataLine);
+                JOptionPane.showMessageDialog(this, "Employee Added and Saved!");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error saving data");
+            }
+        });
+
+        loadData();
+
+        setTitle("Employee Management System");
+        setLayout(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(800, 500);
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    private void loadData() {
+        File file = new File("employees.txt");
+        if (!file.exists()) return;
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                tableModel.addRow(line.split("#"));
+            }
+        } catch (IOException e) {
+            System.err.println("Error loading data");
+        }
+    }
+
+    public static void main(String[] args) {
+        new Management();
+    }
+}
