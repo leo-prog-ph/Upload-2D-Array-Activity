@@ -35,13 +35,9 @@ public class convert extends JFrame{
 		con.addActionListener(e -> {                
 		    try {
 		    	int convert = Integer.parseInt(num.getText());
-		      
-		    	if (convert == 0) {
-		    		binary.setText("0"); }
-		    		else {
+		    		
 		    			StringBuilder bin = new StringBuilder();
 		    			int n = convert;
-		    			
 		    			while (n > 0 ) {
 		    				bin.insert(0, n %2);
 		    				n = n/ 2;
@@ -49,10 +45,6 @@ public class convert extends JFrame{
 		    			}
 		    			binary.setText(bin.toString());
 		    		}
-		    		
-		    		
-		    	}
-		    
 
 		     catch (Exception x) {
 		     
