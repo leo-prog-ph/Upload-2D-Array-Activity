@@ -1,0 +1,51 @@
+package Main;
+import javax.swing.*;
+import java.io.*;
+
+public class convert extends JFrame{
+
+	static JTextField num, binary;
+	
+	convert(){
+		
+		JLabel title = new JLabel("Conversion System");
+		add(title).setBounds(185,50,120,30);
+		
+		JLabel in = new JLabel ("Input Decimal");
+		add(in).setBounds(200,80,120,20);
+		
+		 num = new JTextField();
+		add(num).setBounds(180,100,120,20);
+				
+		JLabel vert = new JLabel ("Binary");
+		add(vert).setBounds(220,180, 120,20);
+		
+		 binary = new JTextField();
+		add(binary).setBounds(180,200,120,20);
+		
+		setTitle("Conversion");
+		setLayout(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setSize(500,400);
+		setVisible(true);
+		
+		JButton con = new JButton ("Convert To Binary");
+		add(con).setBounds(165,130,150,20);
+		
+		con.addActionListener(e -> {                
+		    try {
+		    	int converter = Integer.parseInt(num.getText());
+		        binary.setText(Integer.toBinaryString(converter));
+		    } catch (Exception x) {
+		     
+		        System.out.println("Invalid number format");
+		    }
+		});                
+	}
+	
+	public static void main(String[] args) {
+
+		new convert();
+	}
+
+}
